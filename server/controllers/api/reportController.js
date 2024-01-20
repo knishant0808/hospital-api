@@ -34,7 +34,7 @@ const allReports = async (req, res) => {
 
     try {
         // Find all reports for the patient
-        const reports = await Report.find({ patient: patientId });
+        const reports = await Report.find({ patient: patientId }).sort({ date: 1 });
         if (!reports || reports.length === 0) {
             return res.status(404).json({
                 message: 'No reports found for this patient'
@@ -49,7 +49,29 @@ const allReports = async (req, res) => {
     }
 };
 
+// Create statusReports function to return JSON of all reports for a specific status
+const statusReports = async (req, res) => {
+    const status = req.params.status; // Extract status from route parameter
+
+    try {
+        // Find all reports for the status
+        const reports = await Report.find({ status: status }).sort({ date: 1 });
+        if (!reports || reports.length === 0) {
+            return res.status(404).json({
+                message: 'No reports found for this status'
+            });
+        }
+
+        res.status(200).json(reports);
+    } catch (error) {
+        res.status(500).json({
+            error: error.message
+        });
+    }
+};
+
 module.exports = {
     createReport,
-    allReports
+    allReports,
+    statusReports
 };

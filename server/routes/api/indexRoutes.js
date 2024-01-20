@@ -14,8 +14,8 @@ const patientRoutes = require('./patientRoutes');
 router.use('/patient', patientRoutes);
 
 // Use reportRoutes
-// const reportRoutes = require('./reportRoutes');
-// router.use('/report', reportRoutes);
+const reportRoutes = require('./reportRoutes');
+router.use('/report', reportRoutes);
 
 
 module.exports = router;
