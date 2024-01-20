@@ -10,8 +10,8 @@ const doctorRoutes = require('./doctorRoutes');
 router.use('/doctor', doctorRoutes);
 
 // Use patientRoutes
-// const patientRoutes = require('./patientRoutes');
-// router.use('/patient', patientRoutes);
+const patientRoutes = require('./patientRoutes');
+router.use('/patient', patientRoutes);
 
 // Use reportRoutes
 // const reportRoutes = require('./reportRoutes');

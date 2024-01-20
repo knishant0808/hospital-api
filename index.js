@@ -3,6 +3,7 @@ const path = require('path');
 const bodyParser = require('body-parser');
 
 const connectDB = require('./server/config/db');
+const passport = require('./server/config/passport-jwt-strategy');
 
 connectDB();
 
@@ -10,6 +11,8 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+app.use(passport.initialize());
 
 // Use the API routes when path starts with /api
 app.use('/api', require('./server/routes/api/indexRoutes'));
