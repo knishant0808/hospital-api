@@ -1,17 +1,15 @@
 const express = require('express');
 const router = express.Router();
 
-// Use doctorRoutes
+// Import routes for doctors, patients, and reports
 const doctorRoutes = require('./doctorRoutes');
-router.use('/doctor', doctorRoutes);
-
-// Use patientRoutes
 const patientRoutes = require('./patientRoutes');
-router.use('/patient', patientRoutes);
-
-// Use reportRoutes
 const reportRoutes = require('./reportRoutes');
+
+// Use the imported routes with the router
+router.use('/doctor', doctorRoutes);
+router.use('/patient', patientRoutes);
 router.use('/report', reportRoutes);
 
-
+// Export the configured router
 module.exports = router;

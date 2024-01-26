@@ -1,76 +1,59 @@
 const jwt = require('jsonwebtoken');
-
 const Doctor = require('../../models/doctor');
 
-// Register logic API for doctors
+/**
+ * Registers a new doctor.
+ * 
+ * @param req - The request object containing the doctor's details.
+ * @param res - The response object.
+ */
 const registerDoctor = async (req, res) => {
     const { name, experience, contact, username, password } = req.body;
 
     try {
-        // Check if the record already exists based on username
+        // Check if a doctor with the same username already exists
         const existingDoctor = await Doctor.findOne({ username });
         if (existingDoctor) {
-            return res.status(400).json({
-                error: 'Doctor with this username already exists'
-            });
+            return res.status(400).json({ error: 'Doctor with this username already exists' });
         }
 
         // Create a new doctor instance
-        const doctor = new Doctor({
-            name,
-            experience,
-            contact,
-            username,
-            password,
-        });
+        const doctor = new Doctor({ name, experience, contact, username, password });
 
-        // Save the doctor in the database
+        // Save the new doctor to the database
         await doctor.save();
 
-        res.status(201).json({
-            message: 'Doctor registered successfully'
-        });
+        res.status(201).json({ message: 'Doctor registered successfully' });
     } catch (error) {
-        res.status(500).json({
-            error: error.message
-        });
+        res.status(500).json({ error: error.message });
     }
 };
 
+/**
+ * Handles doctor login.
+ * 
+ * @param req - The request object containing the login credentials.
+ * @param res - The response object.
+ */
 const loginDoctor = async (req, res) => {
     const { username, password } = req.body;
 
     try {
-        // Find the doctor by username
+        // Authenticate the doctor
         const doctor = await Doctor.findOne({ username, password });
         if (!doctor) {
-            return res.status(401).json({
-                error: 'Invalid credentials'
-            }); // 401 Unauthorized
+            return res.status(401).json({ error: 'Invalid credentials' });
         }
 
-        // Create a token
-        const payload = {
-            id: doctor._id,
-            username: doctor.username
-        };
-        const token = jwt.sign(payload, 'secret_key', { 
-            expiresIn: '1h' // Token expiry set to 1 hour
-        });
-        res.status(200).json({ 
-            message: 'Logged in successfully',
-            token 
-        }); // 200 OK
+        // Generate a JWT token for the session
+        const payload = { id: doctor._id, username: doctor.username };
+        const token = jwt.sign(payload, 'secret_key', { expiresIn: '1h' });
+
+        res.status(200).json({ message: 'Logged in successfully', token });
     } catch (error) {
-        res.status(500).json({
-            error: error.message
-        }); // 500 Internal Server Error
+        res.status(500).json({ error: error.message });
     }
 };
 
-
-
-module.exports = {
-    registerDoctor,
-    loginDoctor
-};
+// Export the controller functions
+module.exports = { registerDoctor, loginDoctor };
