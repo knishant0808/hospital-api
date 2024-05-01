@@ -1,6 +1,6 @@
 # Hospital API - COVID-19 Management System
 
-This project includes creating a server-side API for a hospital to manage COVID-19 patients. It's built using Node.js and MongoDB, focusing on funcationalities for doctors and patients, specifically in the context of COVID-19 pandemic.
+This project includes creating a server-side API for a hospital to manage COVID-19 patients. It's built using Node.js and MongoDB, focusing on functionalities for doctors and patients, specifically in the context of COVID-19 pandemic.
 
 ## Features
 
